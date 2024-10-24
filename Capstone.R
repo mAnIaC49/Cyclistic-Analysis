@@ -1,6 +1,7 @@
 library(dplyr)
 library(readr)
 library(writexl)
+
 # Accessing the data
 
 oct23 <- read_csv("csv files/202310-divvy-tripdata.csv")
