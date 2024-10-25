@@ -9,7 +9,7 @@ This analysis examines usage patterns between casual and member riders, explorin
 - Seasonal trends and route preferences
 
 ### Files Included
-- `analysis.Rmd`: Full R Markdown file with code, explanations, and output.
+- `Google Data Analytics Capstone.Rmd`: Full R Markdown file with code, explanations, and output.
 - [Cyclistic Analysis Report](https://maniac49.github.io/Google-Data-Analytics-Cyclistic/): Link to the final report hosted on GitHub Pages.
 
 ### How to View or Run the Analysis
