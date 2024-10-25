@@ -1,0 +1,157 @@
+---
+title: "Cyclistic Bike-Share Analysis Case Study"
+author: "Neeraj"
+date: "2024-10-14"
+output:
+  html_document: default
+  pdf_document: default
+---
+#### Quick Links
+[R code](https://github.com/mAnIaC49/Cyclistic-Analysis/blob/master/Capstone.R)  
+[Tableau dashboard](https://public.tableau.com/views/Capstone_17295218092060/DaysofaWeek?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+
+### Introduction
+In this case study, I will analyse data from a fictional company, Cyclistic and give my top three suggestions to convert casual riders to member riders of their services.
+
+### Ask
+
+#### Business Task
+
+The business task here is to analyze how Cyclistic's casual riders and annual members differ in their use of the bike share services. The objective is to gain insights that will inform the development of marketing stratergies aimed at converting casual riders into annual members.
+
+### Prepare
+
+#### Source
+
+The data was sourced from Cyclistic's historical trip data which was downloaded from [Divvy trip data](https://divvy-tripdata.s3.amazonaws.com/index.html). The dataset was made publicly available by Motivate International Inc.under this [license](https://www.divvybikes.com/data-license-agreement). For this particular analysis, the most recent data i.e, the data from October 2023 to September 2024 was retrieved and analyzed.
+
+#### Organization
+
+There are 12 csv files in total, where each file contains data for a particular month. The files contain the following data:
+
+-   Ride ID (unique identifier for each trip)
+-   Rideable type (bike type: electric bike, electric scooter or classic bike)
+-   Start and end times (timestamps for trip duration)
+-   Start and end station information (location data)
+-   User type
+
+### Process
+
+Since we are dealing with a huge amount of data, I have decided to use R since I am more comfortable with it and also every step I take can be recorded and later be verified by others.
+
+#### Combining the data
+
+Before analysis, I combined the data from the 12 months by first ensuring that the format is the same.
+
+#### Add new columns
+
+New columns added were:
+
+-   **ride_length** : Showed how long the ride lasted (in seconds)
+-   **day_of_week** : Showed the day of the week that the ride started
+-   **hour** : Showed the hour of the day that the ride started
+-   **day** : Showed the day that the ride started
+-   **month** : Showed the month of the year the ride started
+
+
+#### Data cleaning
+
+-   I used the *dplyr* package of the *tidyverse* collection for cleaning.
+-   It was observed that some of the cells in the *ride_length* column had values in decimal points. The reason for this was found to be that from june 2024, the *started_at* and the *ended_at* columns included seconds with decimals in them. So, the columns were then rounded to the nearest whole number.
+-   It was found that nearly 30% of the rows had *NA* values. But since the missing values were only found in location details of the stations, they were deemed to be non-critical and hence retained.
+-   Duplicates were removed.
+-   Rows with *ride_length* less than 5 minutes was removed because such rides are unlikely to represent a meaningful use of the bike.
+-   Whitespaces were trimmed and all characters were converted to lowercase in station names.
+
+### Analyze and Share
+
+#### Descriptive Analysis
+-   Got total number of rides, mean, median, maximum and standard deviation of the ride_length
+-   Got mean, median and standard deviation of ride length for each hour of the day, day of the week, day of the month and the month. Then I arranged the rows in a descending order based on the number of rides.
+
+On performing descriptive analysis on the ride length data it was found that:
+
+* **Number of rides**: 4602404
+* **Mean**: 1270.918
+* **Median**: 728
+* **Maximum**: 93596
+* **Standard Deviation**: 4193.005
+
+#### General Trends
+For days of week:
+
+* The most number of rides took place on Saturdays. However, even though Sunday was much lower in the list of days with highest number of rides, on an average people took longer rides on Sundays compared to any other day.
+* People used the services least on Mondays and Tuesdays
+
+For months of a year:
+
+* The most number of rides took place in September which was unusually high compared to the neighboring months.
+* People took longer rides on an average in July.
+* People used the services the least during winter months.
+
+For days of a month:
+
+* There were less number of rides on the 31st owing to the fact that there is no 31st in many of the months.
+* There wasn't much difference in number of rides, mean, median and standard deviation in ride lengths in different days of a month.
+* People seem to travel longer distances on the 31st.
+
+For hours of a day:
+
+* The most number of rides took place between 12 PM to 7 PM.
+* Least number of rides take place in the midnight but on an average they seem to use the services for a longer duration. This is also the time period with the highest variability.
+
+#### Comparision of member riders and casual riders
+On performing descriptive analysis on ride length of member riders and casual riders, it was found that:
+
+* Member riders took more number of rides compared to casual riders. However, the rides of casual riders were of a longer duration on average compared to casual riders.
+* Ride lengths are more widely spread out for casual riders compared to member riders showing a high variability among casual riders.
+
+The remaining comparisons were done by visualizations. For this, I exported various tables as sheets of a *.xlsx* file.
+
+The tables that were created here were then visualized with [Tableau](https://public.tableau.com/views/Capstone_17295218092060/DaysofaWeek?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+
+![](Days of a Week.png)
+
+* The number of rides are almost the same for casual and member riders on Saturdays and Sundays. But on the other days, the member riders ride more while the casual riders ride less.
+
+* The average distance traveled by member riders does not change much across the days of a week. The casual riders on the other hand not only travel longer distances on the weekends, but also on all the days travel for much longer distances than the member riders.
+* These observations point towards the fact that the member riders probably use the services for work or school/college while casual riders use it for weekend outings, social activities, or other non-commute purposes.
+
+![](Months of a Year.png)
+
+* There is a sudden drop in the number of rides by casual riders in October whereas the drop is much more gradual in member riders. This points to the fact that casual riders are more sensitive to weather changes explaining their declined number of rides during Chicago's fall and winter months that can bring colder temperatures, wind, and snow.
+
+* Average length travelled by casual riders decreases from february to april whereas it increases for member riders. This could be attributed to the changing weather and increased outdoor activities as spring approaches in Chicago. Casual riders, who often use the service for recreational purposes, might take shorter trips as more nearby parks and social spots become accessible. On the other hand, with the arrival of spring, some member riders might also be expanding their commuting routes or enjoying more scenic paths, which naturally increases their ride length.
+
+![](Days of a Month.png)
+
+* There is a strong correlation between the number of rides by casual and member riders across the days of a month.
+
+* There isnt much variation in the average distance travelled by member riders over the days of a month whereas variations exist for casual riders.
+
+* This again points to the fact that member riders seem to have specific routines or needs for riding, leading to less variations in rides whereas casual riders seem to use the rides for occassional purposes.
+
+![](Hours of a Day.png)
+
+* For member riders, the number of rides suddenly increases from 5 to 8 AM and then from 2 to 5 PM.As for casual riders, there is a gradual increase in number of rides from 5 AM to 5 PM and then drops till 4 AM.
+
+* The average length traveled by member riders does not vary much over time whereas for casual riders, it increases from 9 PM to 3 AM where it peaks and then suddenly drops to the lowest in 5 AM. then again it increases from 8 AM to 10 AM and then gradually drops.
+
+* Member riders take a large number of rides during those periods of the day when people would be going to work or school and coming back from there. Whereas, casual riders show high variability where they take the most number of rides in the evening and travel longer distances at night.
+
+![](Maps.png)
+
+* Casual riders take more rides from stations near beaches and parks, whereas member riders take more rides in densely populated regions.
+
+* This shows that casual riders ride more for recreational purposes whereas member riders ride more for functional purposes.
+
+#### Summary
+My analysis of the Cyclistic bike-share case study reveals distinct patterns between casual and member riders. Member riders show peak usage during morning and late afternoon commuting hours with stable average ride lengths, while casual riders demonstrate a gradual increase in rides throughout the day, peaking in the evening and displaying greater variability in ride lengths. Seasonal trends indicate that casual riders prefer warmer months and weekends for recreational activities, whereas member riders maintain consistent usage year-round, primarily on weekdays. Geographic preferences also differ, with casual riders favoring stations near parks and beaches, while member riders utilize stations in densely populated urban areas. These insights suggest targeted marketing and infrastructure improvements can enhance service offerings for both rider groups.
+
+### Act
+#### My top three recomendations based on the analysis:
+* Organize events that attract casual riders to participate in group rides in densely populated areas, showcasing the member experience. Emphasize the social aspects of being a member while exploring new locations.
+
+* Create campaigns that emphasize the value of shorter and more frequent rides, which could be more convenient and economical with a membership.
+
+* Establish partnerships with businesses near popular riding locations like parks and beaches to offer discounts or promotions for members encouraging casual riders to see the benefits of joining.
